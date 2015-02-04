@@ -3,39 +3,44 @@ $(document).ready(function($) {
 	var $friends = $('#friends');
 	var $name = $('#name');
 	var $age = $('#age');
+	var $add = $('#add-friend');
+
+	function addFriend(friend){
+		$friends.append('<li>Name: '+friend.name+', Age: '+friend.age+'</li>');
+	}
 
 	$.ajax({
-		url: 'http://rest.learncode.academy/api/berni/friends',
+		url: 'http://rest.learncode.academy/api/beni/friends',
 		type: 'GET',
 		success: function(friends){
 			$.each(friends, function(i, friend){
-				$friends.append('<li>Name: '+friend.name+' Age: '+friend.age+'</li>');
+				addFriend(friend);
 			});
 		},
-		error: function(){
-			alert("Page not loaded");
+		error: function() {
+			alert('error loading orders');
 		}
 	});
+	
+	$add.on('click', function(){
 
-	$('#add-friend').on('click', function(){
-		
 		var friend = {
 			name: $name.val(),
 			age: $age.val(),
 		};
 
 		$.ajax({
+			url: 'http://rest.learncode.academy/api/beni/friends',
 			type: 'POST',
-			url: 'http://rest.learncode.academy/api/berni/friends',
 			data: friend,
-			success: function(friend){
-				$friends.append('<li>Name: '+friend.name+' Age: '+friend.age+'</li>');
+			success: function(friends){
+				addFriend(friends);
 			},
 			error: function(){
-				alert("not found");
+				alert('error saving friends');
 			}
-		})
-
+		});
 	});
+	
 	
 });
