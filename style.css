@@ -3,3 +3,8 @@ body{
 	background: #256256;
 	margin: 0 auto;
 }
+
+#friends li{
+	background: orangered;
+	margin: 10px 0;
+}
