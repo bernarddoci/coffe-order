@@ -1,18 +1,18 @@
 $(document).ready(function($) {
 	
-	var $friends = $('#friends');
-	var $name = $('#name');
-	var $age = $('#age');
-	var $add = $('#add-friend');
+	$friends = $('#friends');
+	$name = $('#name');
+	$age = $('#age');
+	$add = $('#add-friend');
 
 	var friendTemplate = ""+
 	"<li>" +
-	"<p><strong>Name:</strong> {{name}}</p>" +
-	"<p><strong>Age:</strong> {{age}}</li></p>" +
-	"<button data-id='{{id}}' class='remove'>X</button>" +
-	"</li>"
+	"<p><strong>Name: </strong>{{name}}</p>"+
+	"<p><strong>Age: </strong>{{age}}</p>"+
+	"<button data-id={{id}} class='remove'>Remove</button>"+
+	"</li>";
 
-	function addFriends(friend){
+	function showFriends(friend){
 		$friends.append(Mustache.render(friendTemplate, friend));
 	}
 
@@ -21,16 +21,16 @@ $(document).ready(function($) {
 		type: 'GET',
 		success: function(friends){
 			$.each(friends, function(i, friend) {
-				addFriends(friend);
+				showFriends(friend);
 			});
 		},
 		error: function(){
-			alert("Error in connection!");
+			alert("Error Loading Page");
 		}
 	});
 
-	$add.click(function(event) {
-		
+	$add.on('click', function(){
+
 		var friends = {
 			name: $name.val(),
 			age: $age.val(),
@@ -41,9 +41,10 @@ $(document).ready(function($) {
 			type: 'POST',
 			data: friends,
 			success: function(friends){
-				addFriends(friends);
+				showFriends(friends);
 			}
 		});
+
 	});
 
 	$friends.delegate('.remove','click', function(){
@@ -51,16 +52,18 @@ $(document).ready(function($) {
 		var $li = $(this).closest('li');
 
 		$.ajax({
-			url: 'http://rest.learncode.academy/api/bernardo/friends/' + $(this).attr('data-id'),
+			url: 'http://rest.learncode.academy/api/bernardo/friends/'+$(this).attr('data-id'),
 			type: 'DELETE',
 			success: function(){
-				$li.remove();
+				$li.fadeOut(300, function(){
+					$(this).remove();
+				});
+
 			}
 		});
-		
-
 	});
-	
+
+
 
 
 	
