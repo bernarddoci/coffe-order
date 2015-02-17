@@ -1,102 +1,94 @@
 $(document).ready(function($) {
 	
-	$friends = $('#friends');
-	$name = $('#name');
-	$age = $('#age');
-	$add = $('#add-friend');
-
+	var $friends = $('#friends');
+	var $name = $('#name');
+	var $age = $('#age');
+	var $add = $('#add-friend');
+	// template to show data 
 	var friendTemplate = $('#friend-template').html();
 
-	function showFriends(friend){
+	function addFriends(friend){
 		$friends.append(Mustache.render(friendTemplate, friend));
 	}
-
+	// ajax to get data
 	$.ajax({
-		url: 'http://rest.learncode.academy/api/bernardo/friends',
+		url: 'http://rest.learncode.academy/api/bernard/friends',
 		type: 'GET',
 		success: function(friends){
-			$.each(friends, function(i, friend) {
-				showFriends(friend);
+			$.each(friends, function(i, friend){
+				addFriends(friend);
 			});
 		},
 		error: function(){
-			alert("Error Loading Page");
+			alert("Can't access API");
 		}
 	});
-
+	// ajax to post data
 	$add.on('click', function(){
-
-		var friends = {
+		var friend = {
 			name: $name.val(),
 			age: $age.val(),
-		};
+		}
 
 		$.ajax({
-			url: 'http://rest.learncode.academy/api/bernardo/friends',
+			url: 'http://rest.learncode.academy/api/bernard/friends',
 			type: 'POST',
-			data: friends,
-			success: function(friends){
-				showFriends(friends);
+			data: friend,
+			success: function(newFriend){
+				addFriends(friend);
+			},
+			error: function(){
+				alert("Can't add friend right now");
 			}
 		});
-
+		
 	});
-
-	$friends.delegate('.remove','click', function(){
-
+	// delete data
+	$friends.delegate('.remove', 'click', function(){
 		var $li = $(this).closest('li');
-
 		$.ajax({
-			url: 'http://rest.learncode.academy/api/bernardo/friends/'+$(this).attr('data-id'),
+			url: 'http://rest.learncode.academy/api/bernard/friends/' + $(this).attr('data-id'),
 			type: 'DELETE',
 			success: function(){
-				$li.fadeOut(300, function(){
+				$li.fadeOut(200, function(){
 					$(this).remove();
 				});
-
+			},
+			error: function(){
+				alert("Can't delete, wrong path");
 			}
 		});
+		
 	});
-
-	//Edit Button
-
+	// edit data
 	$friends.delegate('.editFriend', 'click', function(){
 		var $li = $(this).closest('li');
-
 		$li.find('input.name').val($li.find('span.name').html());
 		$li.find('input.age').val($li.find('span.age').html());
 		$li.addClass('edit');
 	});
-
-	//Cancel Button
-
-	$friends.delegate('.cancleEdit', 'click', function(){
+	// cancel data after edit
+	$friends.delegate('.cancelEdit', 'click', function(){
 		$(this).closest('li').removeClass('edit');
 	});
-
-	//Save Butoon
-
+	// save data after edit
 	$friends.delegate('.saveFriend', 'click', function(){
 		var $li = $(this).closest('li');
 		var friend = {
 			name: $li.find('input.name').val(),
 			age: $li.find('input.age').val(),
-		}
-
+		};
 		$.ajax({
-			url: 'http://rest.learncode.academy/api/bernardo/friends/' + $li.attr('data-id'),
+			url: 'http://rest.learncode.academy/api/bernard/friends/' + $li.attr('data-id'),
 			type: 'PUT',
 			data: friend,
-			success: function(friend){
+			success: function(newFriend){
 				$li.find('span.name').html(friend.name);
 				$li.find('span.age').html(friend.age);
 				$li.removeClass('edit');
-			},
-			error: function(){
-				alert("error updatin order");
 			}
 		});
 		
 	});
-	
+
 });

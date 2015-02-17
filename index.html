@@ -10,22 +10,40 @@
 	<h1>jQuery Ajax Tutorial</h1>
 	<h2>Coffe Orders</h2>
 	<ul id="friends"></ul>
-	<template id="friend-template">
-		<li data-id={{id}}>
+	<!-- <template id="friend-template">
+		<li data-id="{{id}}">
 			<p>
 				<strong>Name:</strong>
 				<span class="noedit name">{{name}}</span>
-				<input type="text" class="edit name">
+				<input class="edit name"/>
 			</p>
 			<p>
 				<strong>Age:</strong>
 				<span class="noedit age">{{age}}</span>
-				<input type="text" class="edit age">
+				<input class="edit age"/>
 			</p>
-			<button data-id={{id}} class='remove'>Remove</button>
+			<button data-id='{{id}}' class='remove'>Delete</button>
 			<button class="editFriend noedit">Edit</button>
 			<button class="saveFriend edit">Save</button>
 			<button class="cancleEdit edit">Cancel</button>
+		</li>
+	</template> -->
+	<template id="friend-template">
+		<li data-id="{{id}}">
+			<p>
+				<strong>Name:</strong>
+				<span class="noedit name">{{name}}</span>
+				<input class="edit name"/>
+			</p>
+			<p>
+				<strong>Age:</strong>
+				<span class="noedit age">{{age}}</span>
+				<input class="edit age"/>
+			</p>
+			<button class="remove" data-id="{{id}}">Delete</button>
+			<button class="noedit editFriend">Edit</button>
+			<button class="edit saveFriend">Save</button>
+			<button class="edit cancelEdit">Cancel</button>
 		</li>
 	</template>
 
