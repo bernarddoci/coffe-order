@@ -58,6 +58,8 @@ $(document).ready(function($) {
 		});
 	});
 
+	//Edit Button
+
 	$friends.delegate('.editFriend', 'click', function(){
 		var $li = $(this).closest('li');
 
@@ -66,9 +68,13 @@ $(document).ready(function($) {
 		$li.addClass('edit');
 	});
 
+	//Cancel Button
+
 	$friends.delegate('.cancleEdit', 'click', function(){
 		$(this).closest('li').removeClass('edit');
 	});
+
+	//Save Butoon
 
 	$friends.delegate('.saveFriend', 'click', function(){
 		var $li = $(this).closest('li');
@@ -78,7 +84,7 @@ $(document).ready(function($) {
 		}
 
 		$.ajax({
-			url: 'http://rest.learncode.academy/api/bernardo/friends/' + $(this).attr('data-id'),
+			url: 'http://rest.learncode.academy/api/bernardo/friends/' + $li.attr('data-id'),
 			type: 'PUT',
 			data: friend,
 			success: function(friend){
