@@ -5,6 +5,18 @@ body{
 }
 
 #friends li{
-	background: orangered;
+	background: #B4584B;
 	margin: 10px 0;
+}
+
+ul li .edit{
+	display: none;
+}
+
+ul li.edit .edit{
+	display: initial;
+}
+
+ul li.edit .noedit{
+	display: none;
 }
